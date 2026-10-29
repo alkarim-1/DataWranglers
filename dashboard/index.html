@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Global Life Expectancy Explorer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="dashboard">
+
+        <!-- =========================================
+             PAGE HEADER
+        ========================================== -->
+
+        <header class="page-header">
+
+            <p class="eyebrow">
+                GLOBAL LIFE EXPECTANCY EXPLORER
+            </p>
+
+            <h1>Life Expectancy Around the World</h1>
+
+            <p class="subtitle">
+                Explore differences in female and male life expectancy
+                across countries and how those patterns relate to
+                population aging.
+            </p>
+
+        </header>
+
+
+        <!-- =========================================
+             SHARED YEAR CONTROLS
+             Visuals can use the same selected year.
+        ========================================== -->
+
+        <section class="controls">
+
+            <button id="play-button" type="button">
+                ▶ Play
+            </button>
+
+            <div class="slider-area">
+
+                <div class="slider-heading">
+
+                    <span>Selected year</span>
+
+                    <strong id="selected-year">
+                        2019
+                    </strong>
+
+                </div>
+
+                <input
+                    type="range"
+                    id="year-slider"
+                    min="1960"
+                    max="2020"
+                    value="2019"
+                    step="1"
+                >
+
+                <div class="slider-limits">
+
+                    <span id="minimum-year">
+                        1960
+                    </span>
+
+                    <span id="maximum-year">
+                        2020
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             GENDER FILTER
+             Currently controls Visual 1.
+        ========================================== -->
+
+        <section class="gender-controls">
+
+            <span class="gender-label">
+                Show:
+            </span>
+
+            <button
+                class="gender-button"
+                data-gender="female"
+                type="button"
+            >
+                Female
+            </button>
+
+            <button
+                class="gender-button"
+                data-gender="male"
+                type="button"
+            >
+                Male
+            </button>
+
+            <button
+                class="gender-button active"
+                data-gender="both"
+                type="button"
+            >
+                Both
+            </button>
+
+        </section>
+
+
+        <!-- =========================================
+             DASHBOARD GRID
+             2 columns × 3 rows = 6 visuals
+        ========================================== -->
+
+        <section class="visual-grid">
+
+
+            <!-- =====================================
+                 VISUAL 1
+                 DENNISE
+            ====================================== -->
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <p class="visual-number">
+                            VISUAL 1
+                        </p>
+
+                        <h2 id="chart-title">
+                            Female and Male Life Expectancy, 2019
+                        </h2>
+
+                        <p>
+                            Compare life expectancy with the percentage
+                            of the population age 65 and older.
+                        </p>
+
+                    </div>
+
+                    <div class="legend">
+
+                        <span>
+                            <i class="legend-dot female-dot"></i>
+                            Female
+                        </span>
+
+                        <span>
+                            <i class="legend-dot male-dot"></i>
+                            Male
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <p
+                    id="observation-count"
+                    class="observation-count"
+                ></p>
+
+                <!-- D3 VISUAL 1 IS INSERTED HERE -->
+                <div id="chart"></div>
+
+                <p class="chart-note">
+                    Farther right means longer life expectancy.
+                    Higher means a larger percentage of the
+                    population is age 65 or older.
+                </p>
+
+            </article>
+
+
+            <!-- =====================================
+     VISUAL 2
+     DENNISE
+
+     Scatterplot:
+     X = Female life expectancy
+     Y = Female - Male life expectancy
+====================================== -->
+
+<article class="chart-card">
+
+    <div class="chart-heading">
+
+        <div>
+
+            <p class="visual-number">
+                VISUAL 2
+            </p>
+
+            <h2 id="gap-chart-title">
+                Who Outlives Whom? 2019
+            </h2>
+
+            <p>
+                See whether females or males live longer across
+                countries and how the size of the gap changes
+                with life expectancy.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Visual 2 legend -->
+    <div class="gap-legend">
+
+        <span>
+            <i class="legend-dot female-dot"></i>
+            Females live longer
+        </span>
+
+        <span>
+            <i class="legend-dot male-dot"></i>
+            Males live longer
+        </span>
+
+    </div>
+
+
+    <!-- Largest gap for selected year -->
+    <div class="gap-summary">
+
+        <strong id="largest-gap-value">
+            —
+        </strong>
+
+        <span id="largest-gap-country">
+            Largest difference
+        </span>
+
+    </div>
+
+
+    <!--
+        D3 VISUAL 2 GOES HERE
+
+        main.js will insert the scatterplot
+        into this container.
+    -->
+    <div id="gap-chart"></div>
+
+
+    <p class="chart-note">
+        Each circle represents one observation.
+        Points above zero indicate higher female life expectancy.
+        Points below zero indicate higher male life expectancy.
+    </p>
+
+</article>
+
+
+            <!-- =====================================
+                 VISUAL 3
+                 TEAMMATE
+                 
+                 TEAMMATE:
+                 Add Visual 3 HTML inside this card.
+                 Add D3 chart to #visual-3.
+            ====================================== -->
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <p class="visual-number">
+                            VISUAL 3
+                        </p>
+
+                        <h2>Visual 3</h2>
+
+                        <p>
+                            Teammate visualization goes here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- TEAMMATE: D3 VISUAL 3 CONTAINER -->
+                <div
+                    id="visual-3"
+                    class="visual-placeholder"
+                >
+                    Visual 3 placeholder
+                </div>
+
+            </article>
+
+
+            <!-- =====================================
+                 VISUAL 4
+                 TEAMMATE
+                 
+                 TEAMMATE:
+                 Add Visual 4 D3 code to #visual-4.
+            ====================================== -->
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <p class="visual-number">
+                            VISUAL 4
+                        </p>
+
+                        <h2>Visual 4</h2>
+
+                        <p>
+                            Teammate visualization goes here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- TEAMMATE: D3 VISUAL 4 CONTAINER -->
+                <div
+                    id="visual-4"
+                    class="visual-placeholder"
+                >
+                    Visual 4 placeholder
+                </div>
+
+            </article>
+
+
+            <!-- =====================================
+                 VISUAL 5
+                 TEAMMATE
+                 
+                 TEAMMATE:
+                 Add Visual 5 D3 code to #visual-5.
+            ====================================== -->
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <p class="visual-number">
+                            VISUAL 5
+                        </p>
+
+                        <h2>Visual 5</h2>
+
+                        <p>
+                            Teammate visualization goes here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- TEAMMATE: D3 VISUAL 5 CONTAINER -->
+                <div
+                    id="visual-5"
+                    class="visual-placeholder"
+                >
+                    Visual 5 placeholder
+                </div>
+
+            </article>
+
+
+            <!-- =====================================
+                 VISUAL 6
+                 TEAMMATE
+                 
+                 TEAMMATE:
+                 Add Visual 6 D3 code to #visual-6.
+            ====================================== -->
+
+            <article class="chart-card">
+
+                <div class="chart-heading">
+
+                    <div>
+
+                        <p class="visual-number">
+                            VISUAL 6
+                        </p>
+
+                        <h2>Visual 6</h2>
+
+                        <p>
+                            Teammate visualization goes here.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- TEAMMATE: D3 VISUAL 6 CONTAINER -->
+                <div
+                    id="visual-6"
+                    class="visual-placeholder"
+                >
+                    Visual 6 placeholder
+                </div>
+
+            </article>
+
+        </section>
+
+
+        <!-- Shared tooltip -->
+        <div
+            id="tooltip"
+            class="tooltip"
+        ></div>
+
+    </main>
+
+
+    <!-- Load D3 first -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+
+    <!-- Load dashboard JavaScript -->
+    <script src="main.js"></script>
+
+</body>
+
+</html>
