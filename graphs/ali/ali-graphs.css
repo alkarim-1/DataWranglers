@@ -1,0 +1,16 @@
+/* Scoped styles for Visuals 3 and 4 only */
+.ali-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0;font-size:13px}
+.ali-controls select,.ali-controls button{border:1px solid #d7dfeb;border-radius:8px;padding:8px 10px;background:#f8fafc;color:#172b49}
+.ali-controls button{cursor:pointer}
+#ali-range,.ali-note{color:#79869a;font-size:12px}
+.ali-legend{display:flex;gap:15px;font-size:13px;font-weight:600;margin:12px 0}
+.ali-female{color:#8869bd}.ali-male{color:#1e91a8}.ali-young{color:#e69b42}.ali-old{color:#3476bb}
+.ali-chart svg{display:block;width:100%;height:auto;max-width:100%}
+.ali-grid .tick line{stroke:#e9eef5;stroke-dasharray:3 5}
+.ali-axis .domain{stroke:#d9e2ee}
+.ali-axis .tick text{fill:#79869a;font-size:11px}
+.ali-line{fill:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ali-crosshair{stroke:#8b98ab;stroke-dasharray:4 5}
+.ali-brush .selection{fill:#6299cf;fill-opacity:.15;stroke:#6299cf}
+.ali-tooltip{position:absolute;z-index:1000;pointer-events:none;padding:10px 12px;border-radius:9px;background:#182b46;color:white;box-shadow:0 8px 22px #172b492c;font:13px/1.7 Arial,sans-serif}
+.ali-tooltip small{color:#c9d7e7}

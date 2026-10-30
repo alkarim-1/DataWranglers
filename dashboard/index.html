@@ -12,6 +12,7 @@
     <title>Global Life Expectancy Explorer</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../graphs/ali/ali-graphs.css">
 </head>
 
 <body>
@@ -294,10 +295,11 @@
                             VISUAL 3
                         </p>
 
-                        <h2>Visual 3</h2>
+                        <h2>Life Expectancy by Gender</h2>
 
                         <p>
-                            Teammate visualization goes here.
+                            Explore how female and male life expectancy
+                            have changed across countries over time.
                         </p>
 
                     </div>
@@ -305,12 +307,18 @@
                 </div>
 
                 <!-- TEAMMATE: D3 VISUAL 3 CONTAINER -->
-                <div
-                    id="visual-3"
-                    class="visual-placeholder"
-                >
-                    Visual 3 placeholder
+                <div class="ali-controls">
+                    <label for="ali-country">Select Country:</label>
+                    <select id="ali-country"></select>
+
+                    <button id="ali-reset" type="button">
+                        Reset Zoom
+                    </button>
+
+                    <span id="ali-window">All years</span>
                 </div>
+
+<div id="visual-3" class="ali-chart"></div>
 
             </article>
 
@@ -333,10 +341,11 @@
                             VISUAL 4
                         </p>
 
-                        <h2>Visual 4</h2>
+                        <h2>Age Dependency Over Time</h2>
 
                         <p>
-                            Teammate visualization goes here.
+                            Explore how younger and older dependent populations
+                            have changed across countries over time.
                         </p>
 
                     </div>
@@ -344,12 +353,8 @@
                 </div>
 
                 <!-- TEAMMATE: D3 VISUAL 4 CONTAINER -->
-                <div
-                    id="visual-4"
-                    class="visual-placeholder"
-                >
-                    Visual 4 placeholder
-                </div>
+                <div id="visual-4" class="ali-chart"></div>
+
 
             </article>
 
@@ -448,6 +453,9 @@
 
     <!-- Load dashboard JavaScript -->
     <script src="main.js"></script>
+
+    <!-- Ali's Visuals 3 and 4 -->
+    <script src="../graphs/ali/ali-graphs.js"></script>
 
 </body>
 
