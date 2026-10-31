@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Educating Girls &amp; Family Size</title>
+  <meta name="description" content="Interactive D3 visualization: do countries that educate more girls have smaller families?">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">DSC 209R · Project 3 · Interactive Visualization</p>
+  <h1>Do countries that educate more girls have smaller families?</h1>
+  <p class="lede">
+    Using World Bank indicators from 1970 to 2019, we compare how many girls are enrolled in school
+    with how many children women have, country by country and year by year.
+  </p>
+</header>
+
+<main>
+
+  <!-- static graph -->
+  <section id="static" aria-labelledby="static-title">
+    <h2 id="static-title">Between 1990 and 2015, countries moved right and down: more girls in school, fewer births per woman</h2>
+    <p class="subtitle">
+      Each dot is one country that reports both measures in that year. Area is proportional to population;
+      color shows whether girls (blue) or boys (red) have higher secondary enrollment.
+      Gross enrollment can exceed 100% when students outside the official age range are enrolled.
+      Aggregates such as &ldquo;World&rdquo; or income groups were removed.
+    </p>
+    <div id="static-charts" class="panels"></div>
+    <div id="legend-static" class="legend-row"></div>
+  </section>
+
+  <!-- interactive graph -->
+  <section id="explorer" aria-labelledby="explorer-title">
+    <h2 id="explorer-title">Explore it yourself: watch every country move through time</h2>
+    <p class="subtitle">
+      Press <strong>Play</strong> or drag the slider to change the year. Hover a dot for details,
+      click a dot (or search a country) to pin it and trace its whole path over time.
+      Axes stay fixed so motion is comparable between years.
+    </p>
+
+    <div id="error" class="error" hidden>
+      Could not load <code>girls_education_fertility.csv</code>. If you opened this file directly from disk,
+      start a small local server instead (e.g. <code>python3 -m http.server</code>) and visit
+      <code>http://localhost:8000</code>.
+    </div>
+
+    <div class="controls">
+      <div class="control">
+        <label for="measure">Girls' education measure</label>
+        <select id="measure">
+          <option value="sec">Secondary school (girls)</option>
+          <option value="ter">University / tertiary (women)</option>
+        </select>
+      </div>
+
+      <div class="control control-year">
+        <label for="year">Year: <output id="year-out" for="year"></output></label>
+        <div class="year-row">
+          <button id="play" type="button" aria-pressed="false">▶ Play</button>
+          <input id="year" type="range" min="1970" max="2019" step="1" value="1970">
+        </div>
+      </div>
+
+      <div class="control">
+        <label for="search">Pin a country</label>
+        <input id="search" type="search" list="countries" placeholder="e.g. Brazil, India, Korea" autocomplete="off">
+        <datalist id="countries"></datalist>
+      </div>
+
+      <div class="control control-chips">
+        <span class="label-like">Pinned</span>
+        <div id="chips" class="chips"><span class="muted">none yet</span></div>
+        <button id="clear" type="button" class="link-btn">Clear pins</button>
+      </div>
+    </div>
+
+    <div class="explorer-layout">
+      <div class="chart-card">
+        <div id="scatter"></div>
+        <div id="legend" class="legend-row"></div>
+      </div>
+
+      <aside class="side">
+        <div class="card">
+          <h3>What the data say in <span id="takeaway-year"></span></h3>
+          <p id="takeaway" class="takeaway"></p>
+        </div>
+        <div class="card">
+          <h3>Is the link getting weaker or stronger?</h3>
+          <p class="small muted">
+            Correlation (r) across countries in each year. Click or drag on the line to jump to that year.
+          </p>
+          <div id="corr"></div>
+        </div>
+        <p class="small muted">
+          Correlation is not causation: national income, urbanisation, and child survival
+          also move with both measures.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Data: World Bank. Built with <a href="https://d3js.org/">D3.js</a> .</p>
+</footer>
+
+<div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="script.js"></script>
+</body>
+</html>
