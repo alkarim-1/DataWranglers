@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Educating Girls &amp; Family Size</title>
+  <meta name="description" content="Interactive D3 visualization: do countries that educate more girls have smaller families?">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+  <p class="kicker">DSC 209R · Project 3 · Data Wranglers Interactive Visualization</p>
+  <p class="kicker">Mia Mantei, Ali Karim, Dennise Arenas, Mahir Oza</p>
+  <h1>Do countries that educate more girls have smaller families?</h1>
+  <p class="lede">
+    Using <a href="https://github.com/light-and-salt/World-Bank-Data-by-Indicators" target="_blank" rel="noopener">World Bank</a> indicators from 1970 to 2019, we compare how many girls are enrolled in school
+    with how many children women have, country by country and year by year.
+  </p>
+</header>
+
+<main>
+
+  <!-- static graph -->
+  <section id="static" aria-labelledby="static-title">
+    <h2 id="static-title">Between 1990 and 2015, countries typically see more girls in school with fewer births per woman</h2>
+    <p class="subtitle">
+      Each dot is one country that reports both measures in that year. Area is proportional to population;
+      color shows whether girls (blue) or boys (red) have higher secondary enrollment.
+      Gross enrollment can exceed 100% when students outside the official age range are enrolled.
+      Aggregates such as &ldquo;World&rdquo; or income groups were removed.
+    </p>
+    <div id="static-charts" class="panels"></div>
+    <div id="legend-static" class="legend-row"></div>
+  </section>
+
+  <!-- interactive graph -->
+  <section id="explorer" aria-labelledby="explorer-title">
+    <h2 id="explorer-title">Explore it yourself: watch every country move through time</h2>
+    <p class="subtitle">
+      Press <strong>Play</strong> or drag the slider to change the year. Hover a dot for details,
+      click a dot (or search a country) to pin it and trace its whole path over time.
+      Axes stay fixed so motion is comparable between years.
+    </p>
+
+    <div id="error" class="error" hidden>
+      Could not load <code>girls_education_fertility.csv</code>. If you opened this file directly from disk,
+      start a small local server instead (e.g. <code>python3 -m http.server</code>) and visit
+      <code>http://localhost:8000</code>.
+    </div>
+
+    <div class="controls">
+      <div class="control">
+        <label for="measure">Girls' education measure</label>
+        <select id="measure">
+          <option value="sec">Secondary school (girls)</option>
+          <option value="ter">University / tertiary (women)</option>
+        </select>
+      </div>
+
+      <div class="control control-year">
+        <label for="year">Year: <output id="year-out" for="year"></output></label>
+        <div class="year-row">
+          <button id="play" type="button" aria-pressed="false">▶ Play</button>
+          <input id="year" type="range" min="1970" max="2019" step="1" value="1970">
+        </div>
+      </div>
+
+      <div class="control">
+        <label for="search">Pin a country</label>
+        <input id="search" type="search" list="countries" placeholder="e.g. Brazil, India, Korea" autocomplete="off">
+        <datalist id="countries"></datalist>
+      </div>
+
+      <div class="control control-chips">
+        <span class="label-like">Pinned</span>
+        <div id="chips" class="chips"><span class="muted">none yet</span></div>
+        <button id="clear" type="button" class="link-btn">Clear pins</button>
+      </div>
+    </div>
+
+    <div class="explorer-layout">
+      <div class="chart-card">
+        <div id="scatter"></div>
+        <div id="legend" class="legend-row"></div>
+      </div>
+
+      <aside class="side">
+        <div class="card">
+          <h3>What the data say in <span id="takeaway-year"></span></h3>
+          <p id="takeaway" class="takeaway"></p>
+        </div>
+        <div class="card">
+          <h3>Is the link getting weaker or stronger?</h3>
+          <p class="small muted">
+            Correlation (r) across countries in each year. Click or drag on the line to jump to that year.
+          </p>
+          <div id="corr"></div>
+        </div>
+        <p class="small muted">
+          Correlation is not causation: national income, urbanisation, and child survival
+          also move with both measures.
+        </p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- write-up -->
+  <section id="writeup" aria-labelledby="writeup-title">
+    <h2 id="writeup-title">Write-up</h2>
+
+    <h3>Rationale for Design Decisions</h3>
+    <p>Each group member worked with the same World Bank data folders but developed a different question and interactive visualization. The alternatives included a scatter plot comparing female and male life expectancy with the share of the population aged 65 and older, a &ldquo;Who Outlives Whom?&rdquo; visualization showing the gender gap in life expectancy, a life-expectancy trend chart with country selection and zoom, an age-dependency visualization, a regional fertility trend chart, and a visualization relating fertility to an aging population.</p>
+    <p>As a group, we compared the different ideas based on two main criteria: how interesting and understandable the question was, and how effectively interaction could help the reader explore the data. Several of the individual visualizations showed meaningful patterns, but we ultimately decided to focus the final application on the question: Do countries that educate more girls have smaller families?</p>
+    <p>We chose a scatter plot because the final question compares two quantitative variables directly. This is typically a common, general graphic that most people have seen before and can understand, helping make the information easier to digest. Girls’ secondary-school enrollment is placed on the horizontal axis, and fertility rate is placed on the vertical axis, making it easy to see whether countries with higher girls’ enrollment also tend to have lower fertility. Our data transformation step included filtering out ‘World’ and income group aggregates which would likely also be factors in the information provided by the graphs, but is not the focus of the question or information being explored. This data was ignored from the ‘health.csv’ but we ensured our webpage had this information portrayed in the subtitle of the static graphs. Each circle represents a country. Circle size reflects population so differences in country size are visible, while color shows the gap between girls’ and boys’ enrollment. These two encodings help show differences in countries on the graph while also clearly depicting patterns between countries higher up to the left compared to countries lower on the right. While size is an important indicator of the number of expected women in a country, the color provides a purposeful way to morally express the importance of women’s education where red which is typically an alarming, flag raising color shows the level of improvement and change still needed in our world. Users can also filter on highlighting specific countries either by clicking on them in the interactive plot or using the search filtering to specify the countries they’re most interested in exploring. By default, ‘West Bank and Gaze’ and ‘United States’ are pinned as the highlighted countries. These highlighted countries also have a persisting trend line that their circle follows from the start of the countries reported data to its end. There is also a dropdown option to change the education information from secondary schooling of girls to university education of women by these countries that explore a deeper and connected relationship between women’s education and family burdens.</p>
+    <p>We decided that an interactive year slider would make the visualization more engaging and help show how the relationship changes over time to have a baseline of the accepted replacement level. Users can press Play or move the slider themselves, hover over circles for details, search for and pin countries, and follow individual countries across different years. Keeping the axes fixed makes movement from one year to another easier to compare. The application also provides a yearly summary and a correlation chart so users can examine how strongly girls&rsquo; enrollment and fertility are related over time while being reminded that correlation does not establish causation. As the reader plays with the slider, there is a helpful box that outlines what the viewer is seeing from the interactive chart, that provides a comparison between the top and bottom third of countries in girl&rsquo;s education.</p>
+    <p>We considered keeping multiple separate visualizations because each explored a different aspect of the World Bank data. However, that approach made the project feel more like a collection of charts than one connected story. We ultimately chose the education-and-fertility question because it gave the project a clearer narrative and allowed several interaction techniques to support the same question. Instead of only showing that fertility has fallen over time, the final visualization lets the reader explore whether that decline occurred alongside increases in girls&rsquo; education at the country level.</p>
+
+    <h3>Overview of Development Process</h3>
+
+    <div class="member">
+      <h4>Mia</h4>
+      <p>I coordinated communication within our group by creating a Discord channel and planning Zoom meetings to discuss our project. After our first Zoom meeting, I created 2 visualizations for our checkpoint submission. Then, I recorded a video on behalf of my group to submit for the checkpoint. At our second meeting, I created a shareable document for our final write-up and started drafting elements of our write-up. I spent approximately 3 hours developing my visualizations. I found this aspect of the project to be the most time-consuming because I am used to coding in Python and new to JavaScript. While I was able to quickly clean my data and decide on a question, figuring out how to craft my visualization in D3 took the most time.</p>
+    </div>
+
+    <div class="member">
+      <h4>Mahir</h4>
+      <p>Like the rest of our team, I attended the 2 zoom discussions we’ve had so far along with being actively communicating in the Discord and creating 2 visualizations to provide as options for our final presentation. The first thing I did was work towards answering an important question based on the dataset we’d agreed upon as a group and settled on looking into the relationship between girls' education and the number of children women are expected to have. The data allowed me to look at this by country and year, so I spent about half an hour working on transforming the data down to group and focus down the data from the csv’s and generate a new csv containing the data I cared about. I then spent another half hour developing a static visualization from 1990 and 2015 which was hardest in determining the layout of 2 graphs side by side and also selecting/aggregating the data I cared about for the 2 years. This wasn’t too difficult since I only had to grab data from 2 years. Seeing the massive trend of progress in societies who improve education access for women while also putting less of a burden on them to support families pushed me to create the accompanying interactive infographic that lets this trend be explored deeper year over year. Working to implement the slide, updates to the textual summary of the graph especially providing caveat information when enrollment tops 100%, and laying out the correlation graph were some of the harder aspects of this task which ended up taking about 4-5 hours to develop and research. I was then part of the discussion that we had this past week in deciding which graph we wanted to move forward with. Upon agreeing that this static and interactive visual webpage showed the points the data is trying to convey along with communicating to viewers in a clear way the information, I cleaned up the webpage a bit and worked to update our write-up with the rest of the team.</p>
+    </div>
+
+    <div class="member">
+      <h4>Ali</h4>
+      <p>My goal was to create interactive visualizations that allow users to explore relationships and trends across different countries over time. I chose line charts for the Life Expectancy by Gender and Age Dependency Over Time visualizations because they make it easy to compare changes between groups over multiple years. I used different colors to distinguish between male and female life expectancy, as well as younger and older age dependency. I also included tooltips, a country selection dropdown, and a brushing feature that allows users to zoom into specific time periods. These interactions make it easier to explore the data without overcrowding the graphs. Creating the interactive graphs took me about 4 hours over multiple days as I got familiar with D3.</p>
+      <p>My main contributions were developing the Life Expectancy by Gender and Age Dependency Over Time graphs using D3. I also created a GitHub Repo for the group and helped coordinate how many graphs each one of us would finish and complete before submission for the checkpoint. One of the biggest challenges which took me a while to figure out was getting the interactions to work correctly, especially making sure that selecting a country and brushing a time range updated both of my graphs consistently.</p>
+    </div>
+
+    <div class="member">
+      <h4>Dennise</h4>
+      <p>Our team divided the project by having members develop two visualizations each. I helped initiate the collaboration process by proposing that we use When2Meet to find a time when everyone could meet and discuss responsibilities regarding checkpoint submission for Project 3. For the checkpoint, I developed two interactive visualizations and helped establish the initial dashboard structure that the rest of the team&rsquo;s visualizations could be added to. The first visualization compares female and male life expectancy with the percentage of the population aged 65 and older for a selected year. Users can choose to display female data, male data, or both, making it easier to compare life expectancy patterns across countries. The second visualization, &ldquo;Who Outlives Whom?&rdquo;, focuses on the difference between female and male life expectancy. Each circle represents an observation, with points above zero indicating that female life expectancy is higher and points below zero indicating that male life expectancy is higher.</p>
+      <p>I organized the page into a dashboard layout with space for six total visualizations so that additional team members could integrate their work into the same interface. I spent approximately 3-4 hours developing my portion of the application. The most time-consuming parts were preparing and combining the data needed for the visualizations, deciding which variables would tell a meaningful story, building the D3 interactions, and debugging the visualization updates.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Data: <a href="https://github.com/light-and-salt/World-Bank-Data-by-Indicators" target="_blank" rel="noopener">World Bank</a>. Built with <a href="https://d3js.org/">D3.js</a>.</p>
+</footer>
+
+<div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="script.js"></script>
+</body>
+</html>
